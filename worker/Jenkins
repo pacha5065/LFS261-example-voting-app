@@ -43,6 +43,18 @@ pipeline {
 				}
 			}
 		}
+		stage('docker-package'){
+			agent any
+			steps{
+				echo 'Packaging worker app with docker'
+				script{
+				docker.withRegistry('https://hub.docker.com/repository/docker/prem5065/testalpinenode','dockerlogin') {  
+				def workerImage =docker.build("test/worker:v${env.BUILD_ID}", "./ worker")
+				workerImage.push()
+				workerImage.push("latest")}
+				}
+			}
+		}
 	}
 	post{
 		always{
