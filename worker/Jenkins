@@ -4,7 +4,7 @@ pipeline {
 
   stages{
       stage("build"){
-       
+
         agent{
           docker{
             image 'maven:3.6.1-jdk-8-slim'
@@ -53,20 +53,6 @@ pipeline {
         }
       }
 
-      stage('docker-package'){
-          agent any
-          steps{
-            echo 'Packaging worker app with docker'
-            script{
-              docker.withRegistry('https://index.docker.io/v1/', 'dockerlogin') {
-                  def workerImage = docker.build("xxxxx/worker:v${env.BUILD_ID}", "./worker")
-                  workerImage.push()
-                  workerImage.push("${env.BRANCH_NAME}")
-                  workerImage.push("latest")
-              }
-            }
-          }
-      }
   }
 
   post{
