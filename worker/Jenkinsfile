@@ -30,6 +30,9 @@ pipeline {
 		}
 	}
 	post{
-		always{echo 'Building multibranch pipeline for worker is completed..'}
+		always{
+			archiveArtifacts artifacts: '**/target/*.jar', fingerprint:true
+			echo 'Building multibranch pipeline for worker is completed..'
+		}
 		}
 }
